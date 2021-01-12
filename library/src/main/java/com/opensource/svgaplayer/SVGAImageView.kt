@@ -254,7 +254,7 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.action != MotionEvent.ACTION_DOWN) {
+        if (event?.action != MotionEvent.ACTION_DOWN || mItemClickAreaListener==null) {
             return super.onTouchEvent(event)
         }
         val drawable = getSVGADrawable() ?: return false
