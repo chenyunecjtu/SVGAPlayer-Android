@@ -91,4 +91,8 @@ internal class SVGAVideoSpriteFrameEntity {
         }
     }
 
+    fun clear() {
+        shapes = emptyList()
+    }
+
 }

@@ -12,7 +12,7 @@ internal class SVGAVideoSpriteEntity {
 
     val matteKey: String?
 
-    val frames: List<SVGAVideoSpriteFrameEntity>
+    var frames: List<SVGAVideoSpriteFrameEntity>
 
     constructor(obj: JSONObject) {
         this.imageKey = obj.optString("imageKey")

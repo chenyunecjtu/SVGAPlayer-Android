@@ -5,6 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
+import android.util.Log
 import com.opensource.svgaplayer.bitmap.SVGABitmapByteArrayDecoder
 import com.opensource.svgaplayer.bitmap.SVGABitmapFileDecoder
 import com.opensource.svgaplayer.entities.SVGAAudioEntity
@@ -271,9 +272,11 @@ class SVGAVideoEntity {
     }
 
     fun clear() {
+        Log.d("svga", "clear")
         soundPool?.release()
         soundPool = null
         audioList = emptyList()
+        spriteList?.forEach { it.frames = emptyList() }
         spriteList = emptyList()
         imageMap.clear()
     }
