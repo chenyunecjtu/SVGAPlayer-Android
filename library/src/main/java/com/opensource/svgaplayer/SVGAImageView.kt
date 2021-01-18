@@ -124,7 +124,9 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
         animator.interpolator = LinearInterpolator()
         animator.duration = ((mEndFrame - mStartFrame + 1) * (1000 / videoItem.FPS) / generateScale()).toLong()
         animator.repeatCount = if (loops <= 0) 99999 else loops - 1
+        mAnimatorUpdateListener.setTarget(this)
         animator.addUpdateListener(mAnimatorUpdateListener)
+        mAnimatorListener.setTarget(this)
         animator.addListener(mAnimatorListener)
         if (reverse) {
             animator.reverse()
@@ -195,6 +197,8 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
         getSVGADrawable()?.clear()
         // 清除对 drawable 的引用
         setImageDrawable(null)
+        mAnimatorListener.clear()
+        mAnimatorUpdateListener.clear()
     }
 
     fun pauseAnimation() {
@@ -279,7 +283,7 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private class AnimatorListener(view: SVGAImageView) : Animator.AnimatorListener {
-        private val weakReference = WeakReference<SVGAImageView>(view)
+        private var weakReference = WeakReference<SVGAImageView>(view)
 
         override fun onAnimationRepeat(animation: Animator?) {
             weakReference.get()?.callback?.onRepeat()
@@ -296,14 +300,29 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
         override fun onAnimationStart(animation: Animator?) {
             weakReference.get()?.isAnimating = true
         }
+        fun clear(){
+            weakReference?.clear()
+        }
+
+        fun setTarget(view: SVGAImageView) {
+            weakReference?.clear()
+            weakReference = WeakReference<SVGAImageView>(view)
+        }
     } // end of AnimatorListener
 
 
     private class AnimatorUpdateListener(view: SVGAImageView) : ValueAnimator.AnimatorUpdateListener {
-        private val weakReference = WeakReference<SVGAImageView>(view)
+        private var weakReference = WeakReference<SVGAImageView>(view)
 
         override fun onAnimationUpdate(animation: ValueAnimator?) {
             weakReference.get()?.onAnimatorUpdate(animation)
+        }
+        fun clear() {
+            weakReference?.clear()
+        }
+        fun setTarget(view: SVGAImageView) {
+            weakReference?.clear()
+            weakReference = WeakReference<SVGAImageView>(view)
         }
     } // end of AnimatorUpdateListener
 }
