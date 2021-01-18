@@ -79,6 +79,7 @@ class SVGADrawable(val videoItem: SVGAVideoEntity, val dynamicItem: SVGADynamicE
     }
 
     fun clear() {
+        cleared = true
         videoItem.audioList.forEach { audio ->
             audio.playID?.let {
                 videoItem.soundPool?.stop(it)
@@ -86,5 +87,7 @@ class SVGADrawable(val videoItem: SVGAVideoEntity, val dynamicItem: SVGADynamicE
             audio.playID = null
         }
         videoItem.clear()
+        drawer?.dynamicItem?.clearDynamicObjects()
+        drawer?.videoItem?.clear()
     }
 }

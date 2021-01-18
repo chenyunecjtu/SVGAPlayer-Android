@@ -192,13 +192,13 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
         callback?.onFinished()
     }
 
-    fun clear() {
+     fun clear() {
         getSVGADrawable()?.cleared = true
         getSVGADrawable()?.clear()
         // 清除对 drawable 的引用
         setImageDrawable(null)
-        mAnimatorListener.clear()
-        mAnimatorUpdateListener.clear()
+//        mAnimatorListener.clear()
+//        mAnimatorUpdateListener.clear()
     }
 
     fun pauseAnimation() {
