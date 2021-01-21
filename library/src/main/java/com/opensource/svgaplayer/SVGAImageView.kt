@@ -276,8 +276,8 @@ open class SVGAImageView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        stopAnimation(true)
         if (clearsAfterDetached) {
+            stopAnimation(true)
             clear()
         }
     }
